@@ -5,6 +5,8 @@
 import algorithms as alg
 import Wykresy as wyk
 
+BLAD_ZERO_TOL = 1e-10
+
 # Wybór funkcji jako słownik, gdzie kluczem jest numer funkcji, a wartością jest sama funkcja.
 def wybranaFunkcja(wybor):
     funkcje = {
@@ -50,6 +52,8 @@ def oblicz_i_narysuj(funkcja, a, b, x_nodes, n, nazwa):
     y_interp = alg.wartosci_lagrangea(x_geste, x_nodes, y_nodes)
 
     blad = alg.maksymalny_blad(y_funkcja, y_interp)
+    if abs(blad) < BLAD_ZERO_TOL:
+        blad = 0.0
     print(f"Maksymalny blad interpolacji dla n = {n}: {blad}")
 
     wyk.rysuj_wykres(
