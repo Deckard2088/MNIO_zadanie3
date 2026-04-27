@@ -33,29 +33,6 @@ def nazwaFunkcji(wybor):
     return nazwa.get(wybor)
 
 
-def policz_wartosci(funkcja, lista_x):
-    lista_y = []
-    for x in lista_x:
-        lista_y.append(funkcja(x))
-    return lista_y
-
-
-def policz_lagrange(x_lista, x_nodes, y_nodes):
-    y_lista = []
-    for x in x_lista:
-        y_lista.append(alg.wartosc_langrange(x, x_nodes, y_nodes))
-    return y_lista
-
-
-def sprawdz_blad(y1, y2):
-    blad = 0
-    for i in range(len(y1)):
-        roznica = abs(y1[i] - y2[i])
-        if roznica > blad:
-            blad = roznica
-    return blad
-
-
 def pobierz_wezly(a, b):
     n = int(input("PODAJ LICZBĘ WĘZŁÓW: "))
     if n < 2:
@@ -66,13 +43,13 @@ def pobierz_wezly(a, b):
 
 
 def oblicz_i_narysuj(funkcja, a, b, x_nodes, n, nazwa):
-    y_nodes = policz_wartosci(funkcja, x_nodes)
+    y_nodes = alg.wartosci_funkcji(funkcja, x_nodes)
 
     x_geste = alg.siatka_argumentow(a, b, 1000)
-    y_funkcja = policz_wartosci(funkcja, x_geste)
-    y_interp = policz_lagrange(x_geste, x_nodes, y_nodes)
+    y_funkcja = alg.wartosci_funkcji(funkcja, x_geste)
+    y_interp = alg.wartosci_lagrangea(x_geste, x_nodes, y_nodes)
 
-    blad = sprawdz_blad(y_funkcja, y_interp)
+    blad = alg.maksymalny_blad(y_funkcja, y_interp)
     print(f"Maksymalny blad interpolacji dla n = {n}: {blad}")
 
     wyk.rysuj_wykres(
@@ -118,17 +95,17 @@ def main():
     print(f"WYBRANY PRZEDZIAŁ: [{a}, {b}]")
     print("================================================\n")
 
-    while True:
+    szukaj_dalej = True
+    while szukaj_dalej:
         x_nodes, n = pobierz_wezly(a, b)
-        if x_nodes is None:
-            continue
+        while x_nodes is None:
+            x_nodes, n = pobierz_wezly(a, b)
 
         print(f"WYBRANA LICZBA WĘZŁÓW: {n}")
         oblicz_i_narysuj(funkcja, a, b, x_nodes, n, nazwaFunkcji(wyborFunkcji))
 
         odp = input("Czy chcesz sprawdzic blad dla innej liczby wezlow? (t/n): ")
-        if odp.lower() != "t":
-            break
+        szukaj_dalej = odp.lower() == "t"
 
 
 if __name__ == "__main__":
