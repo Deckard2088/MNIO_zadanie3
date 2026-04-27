@@ -1,5 +1,4 @@
-#ZGADZA SIE, PODJEBAŁEM KOD SAMEMU SOBIE Z ZADANIA 1.
-from cmath import cos
+from math import cos
 
 def horner(x, tablica_wspolczynnikow, dlugosc_tablicy):
     #Czyli zamiast np. y = 4*x*x*x + 3*x + 5 podaje się funkcje wielomian z argumentami: x, [4,0,3,5], 4
@@ -21,7 +20,7 @@ def funkcja_abs(x):
 def funkcja_wielomian(x):
     # y = 2x^3 - 5x^2 + 2x
     y = horner(x, [2, -5, 2, 0], 4)
-    return 0
+    return y
 
 def funkcja_trygonometryczna(x):
     # y = cos(x)
@@ -44,6 +43,12 @@ def funkcja_zlozenie_3(x):
     return funkcja_wielomian(x) + funkcja_abs(x)
 
 
+def funkcja_wielomian_9_stopnia(x):
+    # y = x^9 - 2x^8 + 3x^7 - 4x^6 + 5x^5 - 6x^4 + 7x^3 - 8x^2 + 9x
+    y = horner(x, [1, -2, 3, -4, 5, -6, 7, -8, 9, 0], 10)
+    return y
+
+
 def siatka_argumentow(a, b,liczba_wezlowa):
     #tworzymy siatkę argumentów, czyli tablicę z n równomiernie rozmieszczonymi punktami w przedziale [a,b]
     #np. dla a=0, b=10, n=5, siatka będzie wyglądać tak: [0, 2.5, 5, 7.5, 10]
@@ -53,15 +58,6 @@ def siatka_argumentow(a, b,liczba_wezlowa):
         siatka.append(x)
     return siatka
 
-
-def wczytaj_z_pliku(sciezka):
-    wezly = []
-    with open(sciezka, "r", encoding="utf-8") as plik:
-        for linia in plik:
-            czesci = linia.replace(",", " ").split()
-            for c in czesci:
-                wezly.append(float(c))
-    return wezly
 
 def wartosc_langrange(x, x_nodes, y_nodes):
     n = len(x_nodes)

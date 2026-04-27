@@ -1,11 +1,11 @@
 # Dawid Wachecki 254890
 # Kacper Skoczylas 254864
-#Zadanie 3: wariant 1 - Interpolacja Lagrange'a dla węzłów równoodległych
+# Zadanie 3: wariant 1 - Interpolacja Lagrange'a dla węzłów równoodległych
 
 import algorithms as alg
 import Wykresy as wyk
 
-#wybór funkcji jako słownik, gdzie kluczem jest numer funkcji, a wartością jest sama funkcja.
+# Wybór funkcji jako słownik, gdzie kluczem jest numer funkcji, a wartością jest sama funkcja.
 def wybranaFunkcja(wybor):
     funkcje = {
         1: alg.funkcja_liniowa,
@@ -15,6 +15,7 @@ def wybranaFunkcja(wybor):
         5: alg.funkcja_zlozenie_1,
         6: alg.funkcja_zlozenie_2,
         7: alg.funkcja_zlozenie_3,
+        9: alg.funkcja_wielomian_9_stopnia,
     }
     return funkcje.get(wybor)
 
@@ -27,6 +28,7 @@ def nazwaFunkcji(wybor):
         5: "y = (2x - 5) + cos(x)",
         6: "y = |0.5x + 3| * cos(x)",
         7: "y = (2x^3 - 5x^2 + 2x) + |0.5x + 3|",
+        9: "y = x^9 - 2x^8 + 3x^7 - 4x^6 + 5x^5 - 6x^4 + 7x^3 - 8x^2 + 9x",
     }
     return nazwa.get(wybor)
 
@@ -55,30 +57,12 @@ def sprawdz_blad(y1, y2):
 
 
 def pobierz_wezly(a, b):
-    print("\nJAK PODAĆ WEZLY?")
-    print("1. Ręcznie - podaj liczbę węzłów, a program zrobi równoodległe")
-    print("2. Z pliku - wczytaj położenia węzłów z pliku tekstowego")
-    wybor = int(input("WYBÓR: "))
-
-    if wybor == 1:
-        n = int(input("PODAJ LICZBĘ WĘZŁÓW: "))
-        if n < 2:
-            print("Błąd: liczba węzłów musi być co najmniej 2.")
-            return None, None
-        x_nodes = alg.siatka_argumentow(a, b, n)
-        return x_nodes, n
-
-    if wybor == 2:
-        sciezka = input("PODAJ ŚCIEŻKĘ DO PLIKU Z WĘZŁAMI: ")
-        x_nodes = alg.wczytaj_z_pliku(sciezka)
-        if len(x_nodes) < 2:
-            print("Błąd: w pliku musi być co najmniej 2 węzły.")
-            return None, None
-        x_nodes.sort()
-        return x_nodes, len(x_nodes)
-
-    print("Błąd: niepoprawny wybór.")
-    return None, None
+    n = int(input("PODAJ LICZBĘ WĘZŁÓW: "))
+    if n < 2:
+        print("Błąd: liczba węzłów musi być co najmniej 2.")
+        return None, None
+    x_nodes = alg.siatka_argumentow(a, b, n)
+    return x_nodes, n
 
 
 def oblicz_i_narysuj(funkcja, a, b, x_nodes, n, nazwa):
@@ -98,6 +82,7 @@ def oblicz_i_narysuj(funkcja, a, b, x_nodes, n, nazwa):
         x_nodes,
         y_nodes,
         f"Interpolacja Lagrange'a - {nazwa} | n = {n}",
+        f"lagrange_{nazwa.replace(' ', '_').replace('/', '_').replace('|', '').replace('^', '').replace('(', '').replace(')', '').replace('=', '').replace('-', '_').replace('.', '_')}_n{n}.png",
     )
 
 
@@ -106,12 +91,12 @@ def main():
     print("ZADANIE 3.")
     print("================================================\n")
     print("WYBIERZ FUNKCJĘ")
-    #wypisujemy opcje w menu
-    for i in range(1, 8, 1):
+    # wypisujemy tylko zdefiniowane opcje w menu
+    for i in sorted({1, 2, 3, 4, 5, 6, 7, 9}):
         print(f"{i}. {nazwaFunkcji(i)}")
     #pobieramy wybór od użytkownika
     wyborFunkcji = int(input("\nWYBRANA FUNKCJA: "))
-    if (wyborFunkcji < 1 or wyborFunkcji > 7):
+    if wybranaFunkcja(wyborFunkcji) is None:
         print("Błąd: wpisano niepoprawny numer.")
         return
 
