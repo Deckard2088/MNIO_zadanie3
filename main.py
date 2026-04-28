@@ -4,6 +4,7 @@
 
 import algorithms as alg
 import Wykresy as wyk
+import re
 
 BLAD_ZERO_TOL = 1e-10
 
@@ -63,7 +64,8 @@ def oblicz_i_narysuj(funkcja, a, b, x_nodes, n, nazwa):
         x_nodes,
         y_nodes,
         f"Interpolacja Lagrange'a - {nazwa} | n = {n}",
-        f"lagrange_{nazwa.replace(' ', '_').replace('/', '_').replace('|', '').replace('^', '').replace('(', '').replace(')', '').replace('=', '').replace('-', '_').replace('.', '_')}_n{n}.png",
+        # sanitize file name: replace any character not alnum, dot, underscore or hyphen with underscore
+        f"lagrange_{re.sub(r'[^A-Za-z0-9_.-]+', '_', nazwa)}_n{n}.png",
     )
 
 
