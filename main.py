@@ -18,7 +18,7 @@ def wybranaFunkcja(wybor):
         5: alg.funkcja_zlozenie_1,
         6: alg.funkcja_zlozenie_2,
         7: alg.funkcja_zlozenie_3,
-        9: alg.funkcja_wielomian_9_stopnia,
+        8: alg.funkcja_wielomian_9_stopnia,
     }
     return funkcje.get(wybor)
 
@@ -31,7 +31,7 @@ def nazwaFunkcji(wybor):
         5: "y = (2x - 5) + cos(x)",
         6: "y = |0.5x + 3| * cos(x)",
         7: "y = (2x^3 - 5x^2 + 2x) + |0.5x + 3|",
-        9: "y = x^9 - 2x^8 + 3x^7 - 4x^6 + 5x^5 - 6x^4 + 7x^3 - 8x^2 + 9x",
+        8: "y = x^9 - 2x^8 + 3x^7 - 4x^6 + 5x^5 - 6x^4 + 7x^3 - 8x^2 + 9x",
     }
     return nazwa.get(wybor)
 
@@ -75,7 +75,7 @@ def main():
     print("================================================\n")
     print("WYBIERZ FUNKCJĘ")
     # wypisujemy tylko zdefiniowane opcje w menu
-    for i in sorted({1, 2, 3, 4, 5, 6, 7, 9}):
+    for i in range(1, 9):
         print(f"{i}. {nazwaFunkcji(i)}")
     #pobieramy wybór od użytkownika
     wyborFunkcji = int(input("\nWYBRANA FUNKCJA: "))
